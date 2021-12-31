@@ -2,10 +2,8 @@ const express = require('express');
 const booksRouter = express.Router();
 // const books = require('../data/books');
 const bookdata = require('../model/BookModel');
-// var MongoClient = require('mongodb').MongoClient;
 
-
-
+function router(nav){   // nav function is called 
 
 //router to render books page
 booksRouter.get('/',function(req,res){
@@ -14,7 +12,8 @@ booksRouter.get('/',function(req,res){
     .then(function (books) {
 
     res.render('books',{
-        books
+        books,
+        nav
     });
 
     })
@@ -24,7 +23,9 @@ booksRouter.get('/',function(req,res){
 
 //router to render addbook page
 booksRouter.get('/addbook',function(req,res){
-    res.render('addbook',{});
+    res.render('addbook',{
+        nav // nav function is used
+    });
 
 });
 
@@ -55,7 +56,8 @@ booksRouter.get('/:id',function(req,res){
     bookdata.findOne({ _id: id })
             .then(function (book) {
                 res.render('book', {
-                    book
+                    book,
+                    nav
                 })
 
             })
@@ -70,24 +72,13 @@ booksRouter.post('/delete', function (req, res) {
 
     const id = req.body.id;  
 
-    bookdata.deleteOne({ _id: id })
+    bookdata.findOneAndDelete({ _id: id })
         .then(function () {
 
             res.redirect('/books')
 
         })  
 })
-
-// MongoClient.connect('/delete', function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db("myFirstDatabase");
-//     const id = req.body.id;  
-//     dbo.collection("bookdata").deleteOne(myquery, function(err, obj) {
-//       if (err) throw err;
-//       console.log("1 document deleted");
-//       db.close();
-//     });
-//   });
 
 
 
@@ -123,10 +114,10 @@ booksRouter.post('/update', function (req, res) {
     }) 
 })
 
+return booksRouter
+}
 
 
 
 
-
-
-module.exports = booksRouter;
+module.exports = router;

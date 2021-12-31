@@ -3,7 +3,9 @@ const homeRouter = express.Router();
 
 homeRouter.get('/',function(req,res){
 
-    res.render('home',{});
+    res.render('home',{
+        
+    });
     
 })
 
