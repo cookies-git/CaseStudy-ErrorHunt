@@ -3,16 +3,18 @@ const authorsRouter = express.Router();
 // const authors = require('../data/authors');
 const authordata = require('../model/AuthorModel');
 
+function router(nav){
 
 
-//router to render authors page
+//router to render
 authorsRouter.get('/',function(req,res){
 
     authordata.find() 
     .then(function (authors) {
 
     res.render('authors',{
-        authors
+        authors,
+        nav
     });
 
     })
@@ -22,7 +24,9 @@ authorsRouter.get('/',function(req,res){
 
 //router to render add author page
 authorsRouter.get('/addauthor',function(req,res){
-    res.render('addauthor',{});
+    res.render('addauthor',{
+        nav
+    });
 
 });
 
@@ -53,7 +57,8 @@ authorsRouter.get('/:id',function(req,res){
     authordata.findOne({ _id: id })
             .then(function (author) {
                 res.render('author', {
-                    author
+                    author,
+                    nav
                 })
 
             })
@@ -110,10 +115,10 @@ authorsRouter.post('/update', function (req, res) {
 
     })  
 })
+return  authorsRouter
+}
 
 
 
 
-
-
-module.exports = authorsRouter;
+module.exports = router;
