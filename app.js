@@ -1,20 +1,12 @@
 const express = require('express'); 
 const path = require ('path'); 
-const bodyparser = require('body-parser');
+const bodyparser = require('body-parser'); //ADDED
 const cors = require('cors');
 const host = '0.0.0.0';
 const port = process.env.PORT || 3000;
 
-const nav= [
-    {
-        link:"/books", title:"Books"},
-    {
-        link:"/authors",title:"Authors"},
-    {
-        link:"/addbook",title:"Add Book"},
-    {
-        link:"/addauthor",title:"Add Author"},
-];
+
+const nav = require('./src/data/nav')
 
 const loginRouter = require('./src/routes/loginroute');
 const signupRouter = require('./src/routes/signuproute');
@@ -28,7 +20,7 @@ const app = new express;
 app.set('views','./src/views'); 
 app.set('view engine','ejs');
 app.use(cors());
-app.use(bodyparser.urlencoded({extended:true})); //typo
+app.use(bodyparser.urlencoded({extended:true})); 
 app.use(express.json());
 
 //Setting the path for static files
